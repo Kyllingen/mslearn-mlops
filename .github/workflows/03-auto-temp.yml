@@ -1,0 +1,14 @@
+name: Branch check
+
+on:
+  push:
+    branches: main 
+
+jobs:
+  job1:
+    name: echo branch name
+    runs-on: ubuntu-latest
+    steps:
+    - name: Placeholder
+      run: |
+        echo "Will add code checks here in next challenge"
