@@ -2,6 +2,7 @@ name: Code checks
 
 on:
   workflow_dispatch:
+  pull_request:
   push:
     branches: main 
 
@@ -22,8 +23,20 @@ jobs:
     - name: Run linting tests
       run: | 
         flake8 src/model/
+    - name: Install pytest
+      run: |
+        python -m pip install pytest
+    - name: Install pandas
+      run: |
+        python -m pip install pandas
+    - name: Install scikit-learn
+      run: |
+        python -m pip install scikit-learn
+    - name: Install mlflow
+      run: |
+        python -m pip install mlflow
     - name: Run test training script
       run: |
-        python tests/test_train.py
+        python -m pytest tests/
 
 
