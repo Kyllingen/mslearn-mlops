@@ -9,39 +9,39 @@ jobs:
   job1:
     name: run ml experiment job
     runs-on: ubuntu-latest
+    environment: development
     steps:
     - name: Check out repo
       uses: actions/checkout@main
     - name: Azure login
-      uses: Azure/login@v1
+      uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        environment: development
     - name: Install az ml
       run: |
         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash 
         az extension add -n ml -y
     - name: Run az ml job experiment validate
       run: |
-        az ml job create -f src/job.yml --resource-group mslearn-mlops --workspace-name mslearn-mlops
+        az ml job create -f src/job.yml --resource-group mslearn-mlops --workspace-name mslearn-mlops --stream
 
   job2:
     name: run ml production job
     runs-on: ubuntu-latest
+    environment: production
     needs: job1
     steps:
     - name: Check out repo
       uses: actions/checkout@main
     - name: Azure login
-      uses: Azure/login@v1
+      uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        environment: production
     - name: Install az ml
       run: |
         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash 
         az extension add -n ml -y
     - name: Run az ml job-production
       run: |
-        az ml job create -f src/job.yml --resource-group mslearn-mlops --workspace-name mslearn-mlops
+        az ml job create -f src/job.yml --resource-group mslearn-mlops --workspace-name mslearn-mlops --stream
 
