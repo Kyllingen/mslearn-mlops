@@ -1,0 +1,24 @@
+name: Deploy Model
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    name: run ml production job
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@main
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Install az ml
+      run: |
+        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash 
+        az extension add -n ml -y
+    - name: Deploy model
+      run: |
+        
